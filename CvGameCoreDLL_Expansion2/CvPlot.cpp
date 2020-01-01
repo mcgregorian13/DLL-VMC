@@ -2957,6 +2957,15 @@ const UnitHandle CvPlot::getBestDefender(PlayerTypes eOwner, PlayerTypes eAttack
 							{
 								if((pAttacker == NULL) || (pAttacker->getDomainType() != DOMAIN_AIR) || (pLoopUnit->getDamage() < pAttacker->GetRangedCombatLimit()))
 								{
+									// RED <<<<<
+									// RED - Is Best Defender <<<<<
+									if (pLoopUnit->isMarkedBestDefender())
+									{
+										return pLoopUnit; // No need to compare, this unit request to be considered the best defender.
+									}
+									// RED - Is Best Defender >>>>>
+									// RED >>>>>
+
 									if(pLoopUnit->isBetterDefenderThan(pBestUnit.pointer(), pAttacker))
 									{
 										pBestUnit = pLoopUnit;

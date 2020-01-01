@@ -1279,6 +1279,12 @@ int PathValid(CvAStarNode* parent, CvAStarNode* node, int data, const void* poin
 	bool bFromPlotOwned          = pFromPlot->isOwned();
 	TeamTypes eFromPlotTeam      = pFromPlot->getTeam();
 
+	// RED <<<<<
+	// RED - Civilian Move Through <<<<<
+	bool bCivilianBlocked = !GC.getGame().isOption("GAMEOPTION_CIVILIAN_MOVE_THROUGH");
+	// RED - Is Best Defender >>>>>
+	// RED >>>>>
+
 	// We have determined that this node is not the origin above (parent == NULL)
 	CvAStarNode* pNode = node;
 	bool bPreviousNodeHostile = false;
@@ -1429,8 +1435,13 @@ int PathValid(CvAStarNode* parent, CvAStarNode* node, int data, const void* poin
 #if defined(MOD_GLOBAL_BREAK_CIVILIAN_RESTRICTIONS)
 	if (!MOD_GLOBAL_BREAK_CIVILIAN_RESTRICTIONS) {
 #endif
-	if(!bUnitIsCombat && unit_domain_type != DOMAIN_AIR)
-	{
+	// RED <<<<<
+	// RED - Civilian Move Through <<<<<
+	if (!bUnitIsCombat && unit_domain_type != DOMAIN_AIR && bCivilianBlocked) // RED add bCivilianBlocked
+	//if(!bUnitIsCombat && unit_domain_type != DOMAIN_AIR) // Origin Code
+	// RED - Is Best Defender >>>>>
+	// RED >>>>>
+		{
 		const PlayerTypes eUnitPlayer = unit_owner;
 		const int iUnitCount = pToPlot->getNumUnits();
 		for(int iUnit = 0; iUnit < iUnitCount; ++iUnit)
@@ -3474,6 +3485,12 @@ int TacticalAnalysisMapPathValid(CvAStarNode* parent, CvAStarNode* node, int dat
 	bool bFromPlotOwned          = !pFromPlotCell->IsUnclaimedTerritory();
 	TeamTypes eFromPlotTeam      = pFromPlot->getTeam();
 
+	// RED <<<<<
+	// RED - Civilian Move Through <<<<<
+	bool bCivilianBlocked = !GC.getGame().isOption("GAMEOPTION_CIVILIAN_MOVE_THROUGH"); // RED add bCivilianBlocked
+	// RED - Is Best Defender >>>>>
+	// RED >>>>>
+
 	// We have determined that this node is not the origin above (parent == NULL)
 	CvAStarNode* pNode = node;
 	bool bPreviousNodeHostile = false;
@@ -3625,7 +3642,12 @@ int TacticalAnalysisMapPathValid(CvAStarNode* parent, CvAStarNode* node, int dat
 #if defined(MOD_GLOBAL_BREAK_CIVILIAN_RESTRICTIONS)
 	if (!MOD_GLOBAL_BREAK_CIVILIAN_RESTRICTIONS) {
 #endif
-	if(!bUnitIsCombat && unit_domain_type != DOMAIN_AIR)
+	// RED <<<<<
+	// RED - Civilian Move Through <<<<<
+	if (!bUnitIsCombat && unit_domain_type != DOMAIN_AIR && bCivilianBlocked) // RED add bCivilianBlocked
+	//if(!bUnitIsCombat && unit_domain_type != DOMAIN_AIR) // Origin Code
+	// RED - Is Best Defender >>>>>
+	// RED >>>>>
 	{
 		const PlayerTypes eUnitPlayer = unit_owner;
 		const int iUnitCount = pToPlot->getNumUnits();
