@@ -1963,6 +1963,25 @@ bool CvGame::hasTurnTimerExpired(PlayerTypes playerID)
 		else if(isLocalPlayer){
 			//hold the turn timer at 0 seconds with 0% completion
 			CvPreGame::setEndTurnTimerLength(0.0f);
+
+#if defined(MOD_EVENTS_RED_TURN)
+			if (MOD_EVENTS_RED_TURN)
+				// RED <<<<<
+			{
+				ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+				if (pkScriptSystem)
+				{
+					CvLuaArgsHandle args;
+
+					args->Push(getActivePlayer());
+
+					bool bResult;
+					LuaSupport::CallHook(pkScriptSystem, "TurnComplete", args.get(), bResult);
+				}
+			}
+			// RED >>>>>
+#endif
+
 			iface->updateEndTurnTimer(0.0f);
 		}
 	}
@@ -2016,6 +2035,25 @@ void CvGame::updateTestEndTurn()
 #if !defined(NO_ACHIEVEMENTS)
 						activePlayer.GetPlayerAchievements().EndTurn();
 #endif
+
+#if defined(MOD_EVENTS_RED_TURN)
+						if (MOD_EVENTS_RED_TURN)
+							// RED <<<<<
+						{
+							ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+							if (pkScriptSystem)
+							{
+								CvLuaArgsHandle args;
+
+								args->Push(getActivePlayer());
+
+								bool bResult;
+								LuaSupport::CallHook(pkScriptSystem, "TurnComplete", args.get(), bResult);
+							}
+						}
+						// RED >>>>>
+#endif
+
 						gDLL->sendTurnComplete();
 #if !defined(NO_ACHIEVEMENTS)
 						CvAchievementUnlocker::EndTurn();
@@ -2102,6 +2140,25 @@ void CvGame::updateTestEndTurn()
 #if !defined(NO_ACHIEVEMENTS)
 									activePlayer.GetPlayerAchievements().EndTurn();
 #endif
+
+#if defined(MOD_EVENTS_RED_TURN)
+									if (MOD_EVENTS_RED_TURN)
+										// RED <<<<<
+									{
+										ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+										if (pkScriptSystem)
+										{
+											CvLuaArgsHandle args;
+
+											args->Push(getActivePlayer());
+
+											bool bResult;
+											LuaSupport::CallHook(pkScriptSystem, "TurnComplete", args.get(), bResult);
+										}
+								}
+									// RED >>>>>
+#endif
+
 									gDLL->sendTurnComplete();
 #if !defined(NO_ACHIEVEMENTS)
 									CvAchievementUnlocker::EndTurn();
@@ -2577,6 +2634,28 @@ void CvGame::selectionListGameNetMessage(int eMessage, int iData2, int iData3, i
 					}
 					else
 					{
+#if defined(MOD_EVENTS_RED_COMBAT_MISSION)
+						if (MOD_EVENTS_RED_COMBAT_MISSION)
+							// RED <<<<<
+						{
+							ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+							if (pkScriptSystem && pPlot)
+							{
+								CvLuaArgsHandle args;
+
+								args->Push(pkSelectedUnit->getOwner());
+								args->Push(pkSelectedUnit->GetID());
+								args->Push(pPlot->getX());
+								args->Push(pPlot->getY());
+								args->Push(iData2);
+
+								bool bResult;
+								LuaSupport::CallHook(pkScriptSystem, "PushingMissionTo", args.get(), bResult);
+							}
+						}
+						// RED >>>>>
+#endif
+
 						gDLL->sendPushMission(pkSelectedUnit->GetID(), ((MissionTypes)iData2), iData3, iData4, iFlags, bShift);
 					}
 				}
@@ -3464,6 +3543,23 @@ void CvGame::doControl(ControlTypes eControl)
 			{
 				gDLL->AutoSave(false, true);
 			}
+#if defined(MOD_EVENTS_RED_TURN)
+			if (MOD_EVENTS_RED_TURN)
+				// RED <<<<<
+			{
+				ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+				if (pkScriptSystem)
+				{
+					CvLuaArgsHandle args;
+
+					args->Push(getActivePlayer());
+
+					bool bResult;
+					LuaSupport::CallHook(pkScriptSystem, "TurnComplete", args.get(), bResult);
+				}
+			}
+			// RED >>>>>
+#endif
 
 #if !defined(NO_ACHIEVEMENTS)
 			kActivePlayer.GetPlayerAchievements().EndTurn();
@@ -3485,6 +3581,25 @@ void CvGame::doControl(ControlTypes eControl)
 			CvPlayerAI& kActivePlayer = GET_PLAYER(getActivePlayer());
 			kActivePlayer.GetPlayerAchievements().EndTurn();
 #endif
+
+#if defined(MOD_EVENTS_RED_TURN)
+			if (MOD_EVENTS_RED_TURN)
+				// RED <<<<<
+			{
+				ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+				if (pkScriptSystem)
+				{
+					CvLuaArgsHandle args;
+
+					args->Push(getActivePlayer());
+
+					bool bResult;
+					LuaSupport::CallHook(pkScriptSystem, "TurnComplete", args.get(), bResult);
+				}
+			}
+			// RED >>>>>
+#endif
+
 			gDLL->sendTurnComplete();
 #if !defined(NO_ACHIEVEMENTS)
 			CvAchievementUnlocker::EndTurn();

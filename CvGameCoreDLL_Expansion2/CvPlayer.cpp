@@ -17937,6 +17937,23 @@ void CvPlayer::setTurnActive(bool bNewValue, bool bDoTurn)
 				GAMEEVENTINVOKE_HOOK(GAMEEVENT_PlayerDoneTurn, GetID());
 			}
 #endif
+#if defined(MOD_EVENTS_RED_TURN)
+			if (MOD_EVENTS_RED_TURN)
+				// RED <<<<<
+			{ 
+				ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+				if (pkScriptSystem)
+				{
+					CvLuaArgsHandle args;
+
+					args->Push(GetID());
+
+					bool bResult;
+					LuaSupport::CallHook(pkScriptSystem, "PlayerEndTurnInitiated", args.get(), bResult);
+				}
+			}
+			// RED >>>>>
+#endif
 
 			CvAssertFmt(GetEndTurnBlockingType() == NO_ENDTURN_BLOCKING_TYPE, "Expecting the end-turn blocking to be NO_ENDTURN_BLOCKING_TYPE, got %d", GetEndTurnBlockingType());
 			SetEndTurnBlocking(NO_ENDTURN_BLOCKING_TYPE, -1);	// Make sure this is clear so the UI doesn't block when it is not our turn.
@@ -17965,6 +17982,24 @@ void CvPlayer::setTurnActive(bool bNewValue, bool bDoTurn)
 
 			if(!isHuman() || (isHuman() && !isAlive()) || (isHuman() && gDLL->HasReceivedTurnAllComplete(GetID())) || kGame.getAIAutoPlay())
 				kGame.changeNumGameTurnActive(-1, std::string("setTurnActive() for player ") + getName());
+
+#if defined(MOD_EVENTS_RED_TURN)
+			if (MOD_EVENTS_RED_TURN)
+				// RED <<<<<
+			{
+				ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
+				if (pkScriptSystem)
+				{
+					CvLuaArgsHandle args;
+
+					args->Push(GetID());
+
+					bool bResult;
+					LuaSupport::CallHook(pkScriptSystem, "PlayerEndTurnCompleted", args.get(), bResult);
+				}
+			}
+			// RED >>>>>
+#endif
 
 			DLLUI->PublishPlayerTurnStatus(DLLUIClass::TURN_END, GetID());
 		}
