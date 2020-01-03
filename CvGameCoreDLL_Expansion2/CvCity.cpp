@@ -172,6 +172,13 @@ CvCity::CvCity() :
 	, m_iCitySizeBoost("CvCity::m_iCitySizeBoost", m_syncArchive)
 	, m_iSpecialistFreeExperience("CvCity::m_iSpecialistFreeExperience", m_syncArchive)
 	, m_iStrengthValue("CvCity::m_iStrengthValue", m_syncArchive, true)
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	, m_iAirStackLimit("CvCity::m_iAirStackLimit", m_syncArchive)
+	, m_iLandStackLimit("CvCity::m_iLandStackLimit", m_syncArchive)
+	, m_iSeaStackLimit("CvCity::m_iSeaStackLimit", m_syncArchive)
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	, m_iDamage("CvCity::m_iDamage", m_syncArchive)
 	, m_iThreatValue("CvCity::m_iThreatValue", m_syncArchive, true)
 	, m_iGarrisonedUnit("CvCity::m_iGarrisonedUnit", m_syncArchive)   // unused
@@ -910,6 +917,13 @@ void CvCity::reset(int iID, PlayerTypes eOwner, int iX, int iY, bool bConstructo
 	m_iCitySizeBoost = 0;
 	m_iSpecialistFreeExperience = 0;
 	m_iStrengthValue = 0;
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	m_iAirStackLimit = 0;
+	m_iLandStackLimit = 0;
+	m_iSeaStackLimit = 0;
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	m_iDamage = 0;
 	m_iThreatValue = 0;
 	m_iGarrisonedUnit = -1;    // unused
@@ -2690,6 +2704,55 @@ bool CvCity::canTrain(UnitTypes eUnit, bool bContinue, bool bTestVisible, bool b
 
 	if(!bTestVisible)
 	{
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+		// Do not allow Aircraft construction when the stacking limit is reached (Air units are just killed when checking for nearest valid plot in case of over-stacking...)
+		// Another solution would be to change the jumpToNearestValidPlot function to move Air units to other cities, but what if all cities are over-limit ?
+		if ((pkUnitEntry->GetDomainType() == DOMAIN_AIR) && (pkUnitEntry->GetUnitMaxStack() != -1))
+		{
+			CvPlot* pPlot = plot();
+
+			const IDInfo* pUnitNode;
+			const CvUnit* pLoopUnit;
+
+			pUnitNode = pPlot->headUnitNode();
+
+			bool bAirLimit = false;
+
+			while (pUnitNode != NULL)
+			{
+				pLoopUnit = ::getUnit(*pUnitNode);
+				pUnitNode = pPlot->nextUnitNode(pUnitNode);
+
+				if (pLoopUnit != NULL)
+				{
+					// if a trade unit is here, ignore
+					if (pLoopUnit->isTrade())
+					{
+						continue;
+					}
+
+					// Units of the same type
+					if (CvGameQueries::AreUnitsSameType(eUnit, pLoopUnit->getUnitType()))
+					{
+						if (pPlot->getNumFriendlyUnitsOfType(pLoopUnit) >= GC.getPLOT_UNIT_LIMIT())
+						{
+							bAirLimit = true;
+							break;
+						}
+					}
+				}
+			}
+			if (bAirLimit)
+			{
+				GC.getGame().BuildCannotPerformActionHelpText(toolTipSink, "TXT_KEY_NO_ACTION_AIR_STACKING_LIMIT", "", "", std::max(GC.getCITY_AIR_UNIT_LIMIT(), getAirStackLimit()));
+				if (toolTipSink == NULL)
+					return false;
+			}
+		}
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
+
 		CvUnitEntry& thisUnitInfo = *pkUnitEntry;
 		// Settlers may not be trained in Cities that are too small
 		if(thisUnitInfo.IsFound() || thisUnitInfo.IsFoundAbroad())
@@ -11835,6 +11898,105 @@ int CvCity::GetPower() const
 	return int(pow((double) getStrengthValue() / 100, 1.5));		// This is the same math used to calculate Unit Power in CvUnitEntry
 }
 
+// RED <<<<<
+// RED - Configurable Stacking <<<<<
+//	--------------------------------------------------------------------------------
+int CvCity::getAirStackLimit() const
+{
+	VALIDATE_OBJECT
+		return m_iAirStackLimit;
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::setAirStackLimit(int iValue)
+{
+
+	VALIDATE_OBJECT
+
+		if (iValue < -1)
+			iValue = -1;
+
+	if (iValue != getAirStackLimit())
+	{
+		m_iAirStackLimit = iValue;
+	}
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::changeAirStackLimit(int iChange)
+{
+	VALIDATE_OBJECT
+		if (0 != iChange)
+		{
+			setAirStackLimit(getAirStackLimit() + iChange);
+		}
+}
+
+//	--------------------------------------------------------------------------------
+int CvCity::getLandStackLimit() const
+{
+	VALIDATE_OBJECT
+		return m_iLandStackLimit;
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::setLandStackLimit(int iValue)
+{
+
+	VALIDATE_OBJECT
+
+		if (iValue < -1)
+			iValue = -1;
+
+	if (iValue != getLandStackLimit())
+	{
+		m_iLandStackLimit = iValue;
+	}
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::changeLandStackLimit(int iChange)
+{
+	VALIDATE_OBJECT
+		if (0 != iChange)
+		{
+			setLandStackLimit(getLandStackLimit() + iChange);
+		}
+}
+
+//	--------------------------------------------------------------------------------
+int CvCity::getSeaStackLimit() const
+{
+	VALIDATE_OBJECT
+		return m_iSeaStackLimit;
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::setSeaStackLimit(int iValue)
+{
+
+	VALIDATE_OBJECT
+
+		if (iValue < -1)
+			iValue = -1;
+
+	if (iValue != getSeaStackLimit())
+	{
+		m_iSeaStackLimit = iValue;
+	}
+}
+
+//	--------------------------------------------------------------------------------
+void CvCity::changeSeaStackLimit(int iChange)
+{
+	VALIDATE_OBJECT
+		if (0 != iChange)
+		{
+			setSeaStackLimit(getSeaStackLimit() + iChange);
+		}
+}
+// RED - Configurable Stacking >>>>>
+// RED >>>>>
 
 //	--------------------------------------------------------------------------------
 int CvCity::getDamage() const
@@ -13835,6 +13997,12 @@ bool CvCity::CanPlaceUnitHere(UnitTypes eUnitType)
 			{
 #if defined(MOD_GLOBAL_STACKING_RULES)
 				if (++iSameTypeUnits >= GC.getCITY_UNIT_LIMIT())
+			// RED <<<<<
+			// RED - Configurable Stacking <<<<<
+#else
+				if (pPlot->getNumFriendlyUnitsOfType(pLoopUnit) >= GC.getPLOT_UNIT_LIMIT()) // RED : allow placement when stacking limit is not reached
+			// RED - Configurable Stacking >>>>>
+			// RED >>>>>
 #endif
 				return false;
 			}
@@ -15234,6 +15402,13 @@ void CvCity::read(FDataStream& kStream)
 	kStream >> m_iCitySizeBoost;
 	kStream >> m_iSpecialistFreeExperience;
 	kStream >> m_iStrengthValue;
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	kStream >> m_iAirStackLimit;
+	kStream >> m_iLandStackLimit;
+	kStream >> m_iSeaStackLimit;
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	kStream >> m_iDamage;
 	kStream >> m_iThreatValue;
 	kStream >> m_iGarrisonedUnit;
@@ -15585,6 +15760,13 @@ void CvCity::write(FDataStream& kStream) const
 	kStream << m_iCitySizeBoost;
 	kStream << m_iSpecialistFreeExperience;
 	kStream << m_iStrengthValue;
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	kStream << m_iAirStackLimit;
+	kStream << m_iLandStackLimit;
+	kStream << m_iSeaStackLimit;
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	kStream << m_iDamage;
 	kStream << m_iThreatValue;
 	kStream << m_iGarrisonedUnit;

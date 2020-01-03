@@ -6205,6 +6205,22 @@ public:
 	{
 		return m_iPLOT_UNIT_LIMIT;
 	}
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	inline int getCITY_LAND_UNIT_LIMIT()
+	{
+		return m_iCITY_LAND_UNIT_LIMIT;
+	}
+	inline int getCITY_SEA_UNIT_LIMIT()
+	{
+		return m_iCITY_SEA_UNIT_LIMIT;
+	}
+	inline int getCITY_AIR_UNIT_LIMIT()
+	{
+		return m_iCITY_AIR_UNIT_LIMIT;
+	}
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	inline int getZONE_OF_CONTROL_ENABLED()
 	{
 		return m_iZONE_OF_CONTROL_ENABLED;
@@ -9170,6 +9186,13 @@ protected:
 	int m_iMINOR_FRIENDSHIP_ANCHOR_MOD_WARY_OF;
 	int m_iMINOR_UNIT_GIFT_TRAVEL_TURNS;
 	int m_iPLOT_UNIT_LIMIT;
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	int m_iCITY_LAND_UNIT_LIMIT;
+	int m_iCITY_SEA_UNIT_LIMIT;
+	int m_iCITY_AIR_UNIT_LIMIT;
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	int m_iZONE_OF_CONTROL_ENABLED;
 	int m_iFIRE_SUPPORT_DISABLED;
 	int m_iMAX_HIT_POINTS;

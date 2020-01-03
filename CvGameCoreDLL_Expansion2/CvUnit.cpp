@@ -7539,6 +7539,14 @@ bool CvUnit::canRebaseAt(const CvPlot* pPlot, int iX, int iY) const
 		if(pToPlot->getPlotCity()->getOwner() == getOwner())
 		{
 			bCityToRebase = true;
+			// RED <<<<<
+			// RED - Configurable Stacking <<<<<
+			if (pToPlot->getNumFriendlyUnitsOfType(this) >= GC.getPLOT_UNIT_LIMIT()) // this is the civ5 way of testing stacking limit... 
+			{
+				return false;
+			}
+			// RED - Configurable Stacking >>>>>
+			// RED >>>>>
 		}
 
 		/***************************************************************************
@@ -19820,6 +19828,24 @@ UnitClassTypes CvUnit::getUnitClassType() const
 	return (UnitClassTypes)getUnitInfo().GetUnitClassType();
 }
 
+// RED <<<<<
+// RED - Configurable Stacking <<<<<
+//	--------------------------------------------------------------------------------
+const CvString CvUnit::getUnitStackClassType() const
+{
+	VALIDATE_OBJECT
+		return getUnitInfo().GetUnitStackClassType();
+}
+
+//	--------------------------------------------------------------------------------
+int CvUnit::getUnitMaxStack() const
+{
+	VALIDATE_OBJECT
+		return getUnitInfo().GetUnitMaxStack();
+}
+// RED - Configurable Stacking >>>>>
+// RED >>>>>
+
 //	--------------------------------------------------------------------------------
 const UnitTypes CvUnit::getLeaderUnitType() const
 {
@@ -21269,7 +21295,15 @@ bool CvUnit::AreUnitsOfSameType(const CvUnit& pUnit2, const bool bPretendEmbarke
 	{
 		return true;
 	}
-
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	// Different stacking classes can stack...
+	if (getUnitStackClassType() != pUnit2.getUnitStackClassType())
+	{
+		return false;
+	}
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	return CvGameQueries::AreUnitsSameType(getUnitType(), pUnit2.getUnitType());
 }
 

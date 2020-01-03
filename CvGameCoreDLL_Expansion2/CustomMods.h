@@ -31,11 +31,12 @@
  *****                                                                  *****
  ****************************************************************************
  ****************************************************************************/
-#define MOD_DLL_GUID {0xcf7d28a8, 0x1684, 0x4420, { 0xaf, 0x45, 0x11, 0x7, 0xc, 0xb, 0x8c, 0x4a }} // {CF7D28A8-1684-4420-AF45-11070C0B8C4A}
-#define MOD_DLL_NAME "Pick'N'Mix BNW DLL"
+///#define MOD_DLL_GUID {0xcf7d28a8, 0x1684, 0x4420, { 0xaf, 0x45, 0x11, 0x7, 0xc, 0xb, 0x8c, 0x4a }} // {CF7D28A8-1684-4420-AF45-11070C0B8C4A}
+#define MOD_DLL_GUID { 0x48cd1991, 0xda52, 0x40f9, { 0xa9, 0xe, 0x6d, 0x52, 0xc3, 0xd0, 0x6c, 0x5e } } // 
+#define MOD_DLL_NAME "Pick'N'Mix BNW With RED DLL"
 #define MOD_DLL_VERSION_NUMBER ((uint) 94)
 #define MOD_DLL_VERSION_STATUS ""			// a (alpha), b (beta) or blank (released)
-#define MOD_DLL_CUSTOM_BUILD_NAME "With RED DLL"
+#define MOD_DLL_CUSTOM_BUILD_NAME ""
 
 
 // Comment out this line to include all the achievements code (which don't work in modded games, so we don't need the code!)

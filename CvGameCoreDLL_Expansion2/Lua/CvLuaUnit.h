@@ -508,6 +508,12 @@ protected:
 
 	static int lGetUnitType(lua_State* L);
 	static int lGetUnitClassType(lua_State* L);
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	static int lGetUnitStackClassType(lua_State* L); // RED
+	static int lGetUnitMaxStack(lua_State* L); // RED
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	static int lGetLeaderUnitType(lua_State* L);
 	static int lSetLeaderUnitType(lua_State* L);
 	static int lIsNearGreatGeneral(lua_State* L);

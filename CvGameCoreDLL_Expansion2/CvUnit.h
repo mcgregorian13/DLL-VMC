@@ -1168,6 +1168,13 @@ public:
 	CvUnitEntry& getUnitInfo() const;
 	UnitClassTypes getUnitClassType() const;
 
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	const CvString getUnitStackClassType() const; // RED
+	int getUnitMaxStack() const; // RED
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
+
 	const UnitTypes getLeaderUnitType() const;
 	void setLeaderUnitType(UnitTypes leaderUnitType);
 

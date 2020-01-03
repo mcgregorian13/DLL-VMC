@@ -227,10 +227,15 @@ bool CvGameQueries::AreUnitsSameType(UnitTypes eFirstUnitType, UnitTypes eSecond
 	if(eFirstDomain == eSecondDomain)
 	{
 		// Conversely air units can always stack
-		if(eFirstDomain == DOMAIN_AIR)
-		{
-			return false;
-		}
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	// Code-out for RED Configurable Stacking
+	//	if(eFirstDomain == DOMAIN_AIR)
+	//	{
+	//		return false;
+	//	}
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 
 		bool bUnit1Combat = false;
 		bool bUnit2Combat = false;

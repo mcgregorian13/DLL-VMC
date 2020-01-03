@@ -479,6 +479,20 @@ void CvLuaCity::PushMethods(lua_State* L, int t)
 	Method(UpdateStrengthValue);
 	Method(GetStrengthValue);
 
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	Method(GetAirStackLimit);
+	Method(SetAirStackLimit);
+	Method(ChangeAirStackLimit);
+	Method(GetLandStackLimit);
+	Method(SetLandStackLimit);
+	Method(ChangeLandStackLimit);
+	Method(GetSeaStackLimit);
+	Method(SetSeaStackLimit);
+	Method(ChangeSeaStackLimit);
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
+
 	Method(GetDamage);
 	Method(SetDamage);
 	Method(ChangeDamage);
@@ -3801,6 +3815,76 @@ int CvLuaCity::lGetStrengthValue(lua_State* L)
 	lua_pushinteger(L, iResult);
 	return 1;
 }
+// RED <<<<<
+// RED - Configurable Stacking <<<<<
+//------------------------------------------------------------------------------
+//int getAirStackLimit();
+int CvLuaCity::lGetAirStackLimit(lua_State* L)
+{
+	CvCity* pkCity = GetInstance(L);
+	const int iResult = pkCity->getAirStackLimit();
+
+	lua_pushinteger(L, iResult);
+	return 1;
+}
+//------------------------------------------------------------------------------
+//void setAirStackLimit(int iValue);
+int CvLuaCity::lSetAirStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::setAirStackLimit);
+}
+//------------------------------------------------------------------------------
+//void changeAirStackLimit(int iChange);
+int CvLuaCity::lChangeAirStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::changeAirStackLimit);
+}
+//------------------------------------------------------------------------------
+//int getLandStackLimit();
+int CvLuaCity::lGetLandStackLimit(lua_State* L)
+{
+	CvCity* pkCity = GetInstance(L);
+	const int iResult = pkCity->getLandStackLimit();
+
+	lua_pushinteger(L, iResult);
+	return 1;
+}
+//------------------------------------------------------------------------------
+//void setLandStackLimit(int iValue);
+int CvLuaCity::lSetLandStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::setLandStackLimit);
+}
+//------------------------------------------------------------------------------
+//void changeLandStackLimit(int iChange);
+int CvLuaCity::lChangeLandStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::changeLandStackLimit);
+}
+//------------------------------------------------------------------------------
+//int getSeaStackLimit();
+int CvLuaCity::lGetSeaStackLimit(lua_State* L)
+{
+	CvCity* pkCity = GetInstance(L);
+	const int iResult = pkCity->getSeaStackLimit();
+
+	lua_pushinteger(L, iResult);
+	return 1;
+}
+//------------------------------------------------------------------------------
+//void setSeaStackLimit(int iValue);
+int CvLuaCity::lSetSeaStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::setSeaStackLimit);
+}
+//------------------------------------------------------------------------------
+//void changeAirStackLimit(int iChange);
+int CvLuaCity::lChangeSeaStackLimit(lua_State* L)
+{
+	return BasicLuaMethod(L, &CvCity::changeSeaStackLimit);
+}
+// RED - Configurable Stacking >>>>>
+// RED >>>>>
 //------------------------------------------------------------------------------
 //int getDamage();
 int CvLuaCity::lGetDamage(lua_State* L)

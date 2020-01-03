@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/BuildOutput/VS2010_ModWin32
+/BuildTemp/VS2010_CvGameCoreDLL_Expansion2ModWin32

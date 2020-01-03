@@ -1492,6 +1492,13 @@ CvGlobals::CvGlobals() :
 	m_iMINOR_FRIENDSHIP_ANCHOR_MOD_WARY_OF(-20),
 	m_iMINOR_UNIT_GIFT_TRAVEL_TURNS(3),
 	m_iPLOT_UNIT_LIMIT(1),
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	m_iCITY_LAND_UNIT_LIMIT(0),
+	m_iCITY_SEA_UNIT_LIMIT(0),
+	m_iCITY_AIR_UNIT_LIMIT(0),
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	m_iZONE_OF_CONTROL_ENABLED(1),
 	m_iFIRE_SUPPORT_DISABLED(1),
 #if defined(MOD_BUGFIX_MINOR)
@@ -5652,6 +5659,13 @@ void CvGlobals::cacheGlobals()
 	m_iMINOR_FRIENDSHIP_ANCHOR_MOD_WARY_OF = getDefineINT("MINOR_FRIENDSHIP_ANCHOR_MOD_WARY_OF");
 	m_iMINOR_UNIT_GIFT_TRAVEL_TURNS = getDefineINT("MINOR_UNIT_GIFT_TRAVEL_TURNS");
 	m_iPLOT_UNIT_LIMIT = getDefineINT("PLOT_UNIT_LIMIT");
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	m_iCITY_LAND_UNIT_LIMIT = getDefineINT("CITY_LAND_UNIT_LIMIT");
+	m_iCITY_SEA_UNIT_LIMIT = getDefineINT("CITY_SEA_UNIT_LIMIT");
+	m_iCITY_AIR_UNIT_LIMIT = getDefineINT("CITY_AIR_UNIT_LIMIT");
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	m_iZONE_OF_CONTROL_ENABLED = getDefineINT("ZONE_OF_CONTROL_ENABLED");
 	m_iFIRE_SUPPORT_DISABLED = getDefineINT("FIRE_SUPPORT_DISABLED");
 	m_iMAX_HIT_POINTS = getDefineINT("MAX_HIT_POINTS");

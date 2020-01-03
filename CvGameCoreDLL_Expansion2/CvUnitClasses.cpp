@@ -77,6 +77,12 @@ CvUnitEntry::CvUnitEntry(void) :
 	m_bNoMaintenance(false),
 	m_iUnhappiness(0),
 	m_iUnitClassType(NO_UNITCLASS),
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	m_strUnitStackClassType("DEFAULT"), // RED
+	m_iUnitMaxStack(0), // RED
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	m_iSpecialUnitType(NO_SPECIALUNIT),
 	m_iUnitCaptureClassType(NO_UNITCLASS),
 	m_iUnitCombatType(NO_UNITCOMBAT),
@@ -279,6 +285,13 @@ bool CvUnitEntry::CacheResults(Database::Results& kResults, CvDatabaseUtility& k
 	m_strUnitArtInfoTag = kResults.GetText("UnitArtInfo");
 	m_bUnitArtInfoCulturalVariation = kResults.GetBool("UnitArtInfoCulturalVariation");
 	m_bUnitArtInfoEraVariation = kResults.GetBool("UnitArtInfoEraVariation");
+
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	m_strUnitStackClassType = kResults.GetText("StackClass"); // RED
+	m_iUnitMaxStack = kResults.GetInt("MaxStack"); // RED
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 
 	//References
 	const char* szTextVal = NULL;
@@ -818,6 +831,22 @@ int CvUnitEntry::GetUnitClassType() const
 {
 	return m_iUnitClassType;
 }
+
+// RED <<<<<
+// RED - Configurable Stacking <<<<<
+/// Stack Class of unit
+const char* CvUnitEntry::GetUnitStackClassType() const
+{
+	return m_strUnitStackClassType;
+}
+
+/// Max Stack for this unit
+int CvUnitEntry::GetUnitMaxStack() const
+{
+	return m_iUnitMaxStack;
+}
+// RED - Configurable Stacking >>>>>
+// RED >>>>>
 
 /// Special class of this unit (if any)
 int CvUnitEntry::GetSpecialUnitType() const

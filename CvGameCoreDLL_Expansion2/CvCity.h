@@ -770,6 +770,20 @@ public:
 	int getStrengthValue(bool bForRangeStrike = false) const;
 	int GetPower() const;
 
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	int getAirStackLimit() const;
+	void setAirStackLimit(int iValue);
+	void changeAirStackLimit(int iChange);
+	int getLandStackLimit() const;
+	void setLandStackLimit(int iValue);
+	void changeLandStackLimit(int iChange);
+	int getSeaStackLimit() const;
+	void setSeaStackLimit(int iValue);
+	void changeSeaStackLimit(int iChange);
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
+
 	int getDamage() const;
 	void setDamage(int iValue, bool noMessage=false);
 	void changeDamage(int iChange);
@@ -1033,6 +1047,13 @@ protected:
 	FAutoVariable<int, CvCity> m_iCitySizeBoost;
 	FAutoVariable<int, CvCity> m_iSpecialistFreeExperience;
 	FAutoVariable<int, CvCity> m_iStrengthValue;
+	// RED <<<<<
+	// RED - Configurable Stacking <<<<<
+	FAutoVariable<int, CvCity> m_iAirStackLimit;
+	FAutoVariable<int, CvCity> m_iLandStackLimit;
+	FAutoVariable<int, CvCity> m_iSeaStackLimit;
+	// RED - Configurable Stacking >>>>>
+	// RED >>>>>
 	FAutoVariable<int, CvCity> m_iDamage;
 	FAutoVariable<int, CvCity> m_iThreatValue;
 	FAutoVariable<int, CvCity> m_iGarrisonedUnit;  // unused
